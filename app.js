@@ -1,94 +1,95 @@
 'use strict';
 
-// ── Scientific Data — all items cite peer-reviewed AACC / giftedness literature ──
+// ── Datos — lenguaje adaptado para niño AACC + TEA de 10 años ───────────────
+// Las citas científicas se mantienen para educadores/familias (tooltip inferior)
 
 const TRIGGERS = [
   {
     id: 'sensory',
     emoji: '🔊',
-    label: 'Sobreexcit. Sensorial',
+    label: 'Los ruidos fuertes',
     intensity: 3,
     color: '#E91E63',
     cite: 'Dabrowski (1964); Gere et al. (2009)',
-    mechanism: 'La sobreexcitabilidad sensorial genera respuestas neurológicas amplificadas ante ruido, texturas o luces.',
-    speech: ['¡El ruido me duele!', '¡Es demasiado para mí!', '¡Necesito silencio ya!'],
+    kidDesc: 'Mis oídos captan TODO con mucha potencia, como si tuviera el volumen siempre al máximo. Los demás no lo escuchan igual que yo, pero para mí es real y me duele.',
+    speech: ['¡El ruido me duele por dentro!', '¡Necesito que pare ya!', '¡Es demasiado para mis oídos!'],
     particles: ['🔊', '💥', '📢'],
   },
   {
     id: 'boredom',
     emoji: '🧩',
-    label: 'Infraestimulación',
+    label: 'Me aburro mucho',
     intensity: 3,
     color: '#9C27B0',
     cite: 'Webb et al. (2016); Neihart et al. (2002)',
-    mechanism: 'El desajuste entre capacidad intelectual y el nivel de reto genera frustración y conductas disruptivas.',
-    speech: ['Esto es muy fácil…', '¡Me aburro mucho!', '¿Para qué sirve esto?'],
+    kidDesc: 'Mi cerebro necesita problemas difíciles. Cuando las cosas son muy fáciles o muy lentas, me desespero. Como intentar correr con las piernas atadas.',
+    speech: ['Esto es demasiado fácil…', '¡Mi cerebro necesita más!', '¿Cuándo hacemos algo difícil de verdad?'],
     particles: ['😴', '🧩', '⏳'],
   },
   {
     id: 'perfectionism',
     emoji: '⭐',
-    label: 'Perfeccionismo',
+    label: 'No me sale perfecto',
     intensity: 4,
     color: '#FF5722',
     cite: 'Greenspon (2002); Silverman (2002)',
-    mechanism: 'El perfeccionismo autoimputado genera vergüenza intensa ante errores mínimos y estados de colapso.',
-    speech: ['¡No me salió perfecto!', '¡Soy un fracasado!', '¡No debí cometer ese error!'],
+    kidDesc: 'Cuando cometo un error, aunque sea pequeño, siento una emoción ENORME por dentro. Me cuesta mucho aceptar que no todo puede ser perfecto.',
+    speech: ['¡No tendría que haberme equivocado!', '¡Tengo que hacerlo perfectamente!', '¡No puedo aceptar ese error!'],
     particles: ['⭐', '💔', '😤'],
   },
   {
     id: 'isolation',
     emoji: '👤',
-    label: 'Aislamiento Social',
+    label: 'Nadie me entiende',
     intensity: 3,
     color: '#607D8B',
     cite: 'Neihart et al. (2002)',
-    mechanism: 'La dificultad para encontrar pares intelectuales y el rechazo social producen depresión y desregulación.',
-    speech: ['Nadie me entiende…', 'No encajo en ningún grupo', '¿Por qué soy tan diferente?'],
+    kidDesc: 'A veces pienso diferente a los demás niños y es muy difícil encontrar amigos que quieran hablar de las mismas cosas que yo. Me siento solo aunque haya gente.',
+    speech: ['Nadie piensa como yo…', '¿Por qué soy tan diferente?', 'Me siento solo aunque haya gente'],
     particles: ['👤', '💔', '🌧️'],
   },
   {
     id: 'injustice',
     emoji: '⚖️',
-    label: 'Injusticia Percibida',
+    label: 'Algo no es justo',
     intensity: 3,
     color: '#795548',
     cite: 'Piechowski (1989); Silverman (2002)',
-    mechanism: 'La sensibilidad moral elevada hace que la injusticia percibida desencadene estados de desesperación o ira.',
-    speech: ['¡Eso no es justo!', '¡Las reglas no tienen sentido!', '¡Alguien tiene que arreglarlo!'],
+    kidDesc: 'Tengo una alarma muy potente dentro de mí que detecta cuando algo no es justo. Me afecta muchísimo, aunque no me pase a mí directamente. No puedo ignorarlo.',
+    speech: ['¡Eso no es justo y hay que decirlo!', '¡Las normas no tienen sentido!', '¡No puedo ignorar que eso está mal!'],
     particles: ['⚖️', '😠', '❗'],
   },
   {
     id: 'async',
     emoji: '🔀',
-    label: 'Desincronía Evolutiva',
+    label: 'Mi cerebro va muy rápido',
     intensity: 3,
     color: '#FF9800',
     cite: 'Silverman (2002); Columbus Group (1991)',
-    mechanism: 'El desfase entre madurez cognitiva y emocional genera conflicto interno y confusión regulatoria.',
-    speech: ['¡Lo entiendo pero no puedo con mis emociones!', 'Sé lo que pasa pero no puedo parar', '¡Quiero controlarme!'],
+    kidDesc: 'Mi cerebro entiende cosas muy complejas, pero mis emociones van más despacio. Es como un coche muy rápido con frenos lentos: a veces choco aunque no quiera.',
+    speech: ['¡Lo entiendo todo pero no puedo controlar cómo me siento!', '¡Mi cabeza y mis emociones no van juntas!', 'Sé lo que pasa pero no puedo parar'],
     particles: ['🔀', '⚡', '🌀'],
   },
   {
     id: 'routine',
     emoji: '📅',
-    label: 'Cambio de Rutina',
+    label: 'Algo cambia sin avisar',
     intensity: 2,
     color: '#009688',
     cite: 'Dabrowski (1964); Daniels & Piechowski (2009)',
-    mechanism: 'La sobreexcitabilidad psicomotriz y emocional hace que los cambios imprevistos desencadenen ansiedad intensa.',
-    speech: ['¡Esto no es lo habitual!', '¡No avisaron del cambio!', '¡Necesito que las cosas sean predecibles!'],
+    kidDesc: 'Necesito saber qué va a pasar para sentirme seguro. Cuando algo cambia de repente, mi cerebro se alarma porque ese dato no estaba en mi plan.',
+    speech: ['¡Esto no estaba en el plan!', '¡Necesito saber qué va a pasar!', '¡No avisaron del cambio!'],
     particles: ['📅', '❓', '⚠️'],
   },
   {
     id: 'mislabel',
     emoji: '🚫',
-    label: 'Incomprensión Adulta',
+    label: 'No me creen',
     intensity: 4,
     color: '#F44336',
     cite: 'Webb et al. (2016); Daniels & Piechowski (2009)',
-    mechanism: 'La interpretación errónea de la intensidad emocional como patología (TDAH, TOC) genera vergüenza y desconfianza.',
-    speech: ['Nadie me cree…', '¡No estoy loco, es real!', 'No entienden cómo me siento'],
+    kidDesc: 'Cuando los adultos piensan que exagero o que lo que siento no es verdad, me duele muchísimo. Mis emociones son 100% reales aunque los demás no las vean.',
+    speech: ['¡No exagero, de verdad lo siento así!', '¿Por qué nadie me cree?', '¡Mis emociones son reales!'],
     particles: ['🚫', '😔', '💢'],
   },
 ];
@@ -98,126 +99,127 @@ const SYMPTOMS = {
     {
       id: 'psychomotor',
       emoji: '🦵',
-      label: 'Inquietud Psicomotriz',
+      label: 'No puedo quedarme quieto',
       color: '#8BC34A',
       border: '#558B2F',
       cite: 'Dabrowski (1964)',
-      desc: 'Exceso de energía, movimiento compulsivo, dificultad para quedarse quieto. Sobreexcitabilidad psicomotriz.',
+      kidDesc: 'Mi cuerpo tiene mucha energía dentro que necesita salir. Me muevo, golpeteo, me retuerzo. No lo hago adrede: es mi cuerpo buscando una salida.',
     },
     {
       id: 'racing',
       emoji: '💭',
-      label: 'Pensamiento Acelerado',
+      label: 'Mi cabeza no para de pensar',
       color: '#26C6DA',
       border: '#00838F',
       cite: 'Dabrowski (1964); Lind (2001)',
-      desc: 'Torrente de ideas imparable, dificultad para dormir, monólogo interno intenso. Sobreexcitabilidad intelectual.',
+      kidDesc: 'Tengo miles de pensamientos a la vez. Es como un ordenador con 100 pestañas abiertas al mismo tiempo. A veces no puedo dormir por eso.',
     },
   ],
   moderate: [
     {
       id: 'somatic',
       emoji: '🤢',
-      label: 'Ansiedad Somática',
+      label: 'Me duele la barriga o la cabeza',
       color: '#FFCA28',
       border: '#F9A825',
       cite: 'Lind (2001); Dabrowski (1964)',
-      desc: 'Cefaleas, dolor abdominal y tensión muscular como expresión física de la sobrecarga emocional.',
+      kidDesc: 'Cuando estoy muy agobiado, mi cuerpo lo nota: dolor de barriga, dolor de cabeza o me sudan las manos. Es mi cuerpo diciéndome que hay demasiado.',
     },
     {
       id: 'reactivity',
       emoji: '⚡',
-      label: 'Reactividad Emocional',
+      label: 'Mis emociones son enormes',
       color: '#FF7043',
       border: '#BF360C',
       cite: 'Piechowski (1989); Webb et al. (2016)',
-      desc: 'Respuestas emocionales desproporcionadas ante estímulos menores. Sobreexcitabilidad emocional amplificada.',
+      kidDesc: 'Siento las cosas MUCHO más fuerte que los demás. Una pequeña cosa puede hacerme sentir un montón. No lo puedo controlar: así funciona mi cerebro.',
     },
     {
       id: 'hypersensory',
       emoji: '👂',
-      label: 'Hipersensibilidad Sensorial',
+      label: 'Algunas cosas me molestan mucho',
       color: '#AB47BC',
       border: '#6A1B9A',
       cite: 'Gere et al. (2009)',
-      desc: 'Sensibilidad elevada y medible ante ruidos, texturas, olores y cambios de temperatura. Hallazgo neurobiológico.',
+      kidDesc: 'Ciertos sonidos, texturas de ropa, luces o smells se sienten para mí como si estuvieran a volumen 100. Los demás no lo sienten igual porque mis sensores son más potentes.',
     },
     {
       id: 'rigid',
       emoji: '🧱',
-      label: 'Rigidez Cognitiva',
+      label: 'Me cuesta cambiar de plan',
       color: '#78909C',
       border: '#37474F',
       cite: 'Dabrowski (1964); Silverman (2002)',
-      desc: 'Dificultad para ajustarse cuando la realidad no coincide con la lógica interna. Pensamiento inflexible bajo estrés.',
+      kidDesc: 'Cuando tengo una idea o un plan en la cabeza, cambiarlo es muy difícil, aunque quiera. Es como intentar borrar algo escrito con tinta permanente.',
     },
   ],
   high: [
     {
       id: 'meltdown',
       emoji: '🌋',
-      label: 'Colapso Emocional',
+      label: 'Exploto como un volcán',
       color: '#EF5350',
       border: '#B71C1C',
       cite: 'Dabrowski (1964); Webb et al. (2016)',
-      desc: 'Pérdida aguda del control emocional por acumulación de desbordamiento sensorial y emocional. «Meltdown».',
+      kidDesc: 'Cuando se acumula demasiado, la emoción sale de golpe y muy fuerte, como un volcán. No lo planifico: simplemente pasa cuando ya no cabe más.',
     },
     {
       id: 'anger',
       emoji: '😡',
-      label: 'Ira Intensa',
+      label: 'Me pongo muy muy enfadado',
       color: '#FF6F00',
       border: '#E65100',
       cite: 'Dabrowski (1964); Webb et al. (2016)',
-      desc: 'Ira profunda ante injusticia percibida o falta de reconocimiento intelectual. Puede confundirse con TOD.',
+      kidDesc: 'La ira se siente como fuego dentro. Es especialmente fuerte cuando algo es injusto o cuando no me escuchan. No soy malo: solo siento mucho.',
     },
     {
       id: 'withdrawal',
       emoji: '🚪',
-      label: 'Retirada Social',
+      label: 'Necesito alejarme de todos',
       color: '#546E7A',
       border: '#263238',
       cite: 'Neihart et al. (2002)',
-      desc: 'Aislamiento progresivo tras rechazo reiterado de pares. Aumenta riesgo de depresión crónica.',
+      kidDesc: 'Cuando hay demasiado, mi cuerpo me pide estar solo un rato para recuperarme. Como recargar la batería. No es que me caiga mal la gente.',
     },
   ],
   crisis: [
     {
       id: 'shutdown',
       emoji: '⬛',
-      label: 'Cierre Emocional Total',
+      label: 'Me quedo en blanco',
       color: '#616161',
       border: '#212121',
       cite: 'Webb et al. (2016); Daniels & Piechowski (2009)',
-      desc: 'Desconexión completa del entorno ante desregulación severa acumulada. Requiere intervención especializada.',
+      kidDesc: 'A veces me desconecto de todo, como si apagara el ordenador. No es que no quiera responder: es que no puedo. Necesito tiempo para volver a encenderse.',
     },
     {
       id: 'aggression',
       emoji: '👊',
-      label: 'Agresividad Conductual',
+      label: 'Hago cosas que no quiero hacer',
       color: '#D32F2F',
       border: '#7F0000',
       cite: 'Webb et al. (2016)',
-      desc: 'Agresión física o destructiva cuando la desregulación es extrema. Frecuentemente confundida con trastorno de conducta.',
+      kidDesc: 'A veces, cuando la emoción es demasiado grande, el cuerpo actúa solo antes de que pueda pensar. Después me arrepiento. No soy malo: mi emoción fue más rápida que yo.',
     },
     {
       id: 'despair',
       emoji: '🖤',
-      label: 'Desesperanza / Depresión',
+      label: 'Siento que nada tiene sentido',
       color: '#4527A0',
       border: '#1A0072',
       cite: 'Neihart et al. (2002); Silverman (2002)',
-      desc: 'Depresión severa por aislamiento crónico, perfeccionismo no tratado y necesidades educativas no cubiertas.',
+      kidDesc: 'Cuando estoy muy cansado de todo y siento que nada va a mejorar. Esta es la señal más importante de que necesito ayuda de alguien de confianza ahora.',
     },
   ],
 };
 
+// Escala del volcán — metáfora concreta y visual para TEA/AACC
 const STATES = [
-  { key: 'calm',     emoji: '😊', label: 'Regulado',          sceneClass: 'state-calm',     scale: 1, color: '#4CAF50' },
-  { key: 'mild',     emoji: '😟', label: 'Leve malestar',     sceneClass: 'state-mild',     scale: 2, color: '#8BC34A' },
-  { key: 'moderate', emoji: '😣', label: 'Sobreexcitado',     sceneClass: 'state-moderate', scale: 3, color: '#FFC107' },
-  { key: 'high',     emoji: '😨', label: 'Desbordado',        sceneClass: 'state-high',     scale: 4, color: '#FF9800' },
-  { key: 'crisis',   emoji: '😱', label: 'Crisis / Meltdown', sceneClass: 'state-crisis',   scale: 5, color: '#F44336' },
+  { key: 'calm',     emoji: '☀️', label: 'Estoy bien',       sceneClass: 'state-calm',     scale: 1, color: '#4CAF50' },
+  { key: 'mild',     emoji: '🌤️', label: 'Algo me molesta',  sceneClass: 'state-mild',     scale: 2, color: '#8BC34A' },
+  { key: 'moderate', emoji: '☁️', label: '¡Hay demasiado!', sceneClass: 'state-moderate', scale: 3, color: '#FFC107' },
+  { key: 'high',     emoji: '⛈️', label: '¡No puedo más!',  sceneClass: 'state-high',     scale: 4, color: '#FF9800' },
+  { key: 'crisis',   emoji: '🌋', label: '¡VOLCÁN!',         sceneClass: 'state-crisis',   scale: 5, color: '#F44336' },
 ];
 
 // ── State ────────────────────────────────────────────────────────────────────
@@ -243,14 +245,12 @@ const envEffects     = document.getElementById('envEffects');
 const toast          = document.getElementById('toast');
 const btnReset       = document.getElementById('btnReset');
 const btnCalm        = document.getElementById('btnCalm');
-
-// Tooltip
 const tooltip        = document.getElementById('tooltip');
 const tooltipTitle   = document.getElementById('tooltipTitle');
 const tooltipCite    = document.getElementById('tooltipCite');
 const tooltipDesc    = document.getElementById('tooltipDesc');
 
-// SVG face elements
+// SVG face
 const mouth     = document.getElementById('mouth');
 const blushL    = document.getElementById('blushL');
 const blushR    = document.getElementById('blushR');
@@ -282,12 +282,12 @@ function renderTriggers() {
     btn.className = 'trigger-btn';
     btn.dataset.id = trigger.id;
     btn.dataset.cite = trigger.cite;
-    btn.dataset.desc = trigger.mechanism;
+    btn.dataset.desc = trigger.kidDesc;
     btn.dataset.titleTip = trigger.label;
     btn.innerHTML = `
       <span class="trigger-emoji">${trigger.emoji}</span>
       <span class="trigger-label">${trigger.label}</span>
-      <span class="trigger-cite-tag">📖</span>
+      <span class="trigger-cite-tag">💡</span>
       <span class="trigger-intensity">+${trigger.intensity}</span>
     `;
     btn.addEventListener('click', () => toggleTrigger(trigger, btn));
@@ -395,32 +395,32 @@ function updateFace(idx) {
 // ── Symptoms Panel ───────────────────────────────────────────────────────────
 
 function updateSymptoms(idx) {
-  let activeSymptoms = [];
-  if (idx >= 1) activeSymptoms = [...activeSymptoms, ...SYMPTOMS.mild];
-  if (idx >= 2) activeSymptoms = [...activeSymptoms, ...SYMPTOMS.moderate];
-  if (idx >= 3) activeSymptoms = [...activeSymptoms, ...SYMPTOMS.high];
-  if (idx >= 4) activeSymptoms = [...activeSymptoms, ...SYMPTOMS.crisis];
+  let active = [];
+  if (idx >= 1) active = [...active, ...SYMPTOMS.mild];
+  if (idx >= 2) active = [...active, ...SYMPTOMS.moderate];
+  if (idx >= 3) active = [...active, ...SYMPTOMS.high];
+  if (idx >= 4) active = [...active, ...SYMPTOMS.crisis];
 
   symptomsList.innerHTML = '';
 
-  if (activeSymptoms.length === 0) {
+  if (active.length === 0) {
     symptomsList.innerHTML = `
-      <div class="no-symptoms"><span>✅</span><p>Sin síntomas activos</p></div>`;
+      <div class="no-symptoms"><span>✅</span><p>Todo está bien por ahora</p></div>`;
     return;
   }
 
-  activeSymptoms.forEach(s => {
+  active.forEach(s => {
     const item = document.createElement('div');
     item.className = 'symptom-item has-tooltip';
     item.dataset.cite = s.cite;
-    item.dataset.desc = s.desc;
+    item.dataset.desc = s.kidDesc;
     item.dataset.titleTip = s.label;
     item.style.borderLeftColor = s.border;
     item.style.color = s.border;
     item.innerHTML = `
       <span class="symptom-item-emoji">${s.emoji}</span>
       <span class="symptom-item-text">${s.label}</span>
-      <span class="symptom-cite-tag">📖</span>`;
+      <span class="symptom-cite-tag">💡</span>`;
     symptomsList.appendChild(item);
   });
 }
@@ -441,13 +441,13 @@ function spawnSymptomBubbles(idx) {
   const selected = pool.slice(0, count);
 
   const positions = [
-    { top: '5%',  left: '-110px' },
-    { top: '18%', right: '-120px' },
+    { top: '5%',  left: '-120px' },
+    { top: '18%', right: '-130px' },
     { top: '38%', left: '-115px' },
-    { top: '52%', right: '-120px' },
+    { top: '52%', right: '-125px' },
     { top: '68%', left: '-110px' },
-    { top: '80%', right: '-115px' },
-    { top: '88%', left: '-100px' },
+    { top: '80%', right: '-120px' },
+    { top: '88%', left: '-105px' },
   ];
 
   selected.forEach((s, i) => {
@@ -508,16 +508,15 @@ function showSpeech(text) {
   speechTimeout = setTimeout(() => speechBubble.classList.add('hidden'), 3500);
 }
 
-// ── Tooltip ───────────────────────────────────────────────────────────────────
+// ── Tooltip (explicación en lenguaje de niño + cita para adultos) ─────────────
 
 function setupTooltip() {
   document.addEventListener('mouseover', e => {
     const el = e.target.closest('[data-cite]');
     if (!el) { tooltip.classList.add('hidden'); return; }
-
     tooltipTitle.textContent = el.dataset.titleTip || '';
-    tooltipCite.textContent  = el.dataset.cite || '';
-    tooltipDesc.textContent  = el.dataset.desc || '';
+    tooltipDesc.textContent  = el.dataset.desc     || '';
+    tooltipCite.textContent  = '📚 ' + (el.dataset.cite || '');
     tooltip.classList.remove('hidden');
     positionTooltip(e);
   });
@@ -557,16 +556,16 @@ function resetAll() {
   updateScaleSteps(0);
   spawnSymptomBubbles(0);
   speechBubble.classList.add('hidden');
-  showToast('Reiniciado ✅');
+  showToast('Todo reiniciado ✅');
 }
 
 // ── Calm Child ────────────────────────────────────────────────────────────────
 
 function calmChild() {
-  if (currentStateIdx === 0) { showToast('El niño ya está regulado 😊'); return; }
+  if (currentStateIdx === 0) { showToast('¡Ya estás bien! 😊 ☀️'); return; }
   showSpeech('Me siento mejor… gracias 💚');
   resetAll();
-  showToast('¡Regulación lograda! 💚');
+  showToast('¡Encontraste la calma! ☀️💚');
 }
 
 // ── Toast ──────────────────────────────────────────────────────────────────────

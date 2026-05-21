@@ -8,11 +8,11 @@
 </head>
 <body>
 
-  <!-- Floating citation tooltip -->
+  <!-- Tooltip — descripción en lenguaje de niño + cita para adultos -->
   <div class="citation-tooltip hidden" id="tooltip">
     <div class="tooltip-title" id="tooltipTitle"></div>
-    <div class="tooltip-cite" id="tooltipCite"></div>
     <div class="tooltip-desc" id="tooltipDesc"></div>
+    <div class="tooltip-cite" id="tooltipCite"></div>
   </div>
 
   <header class="header">
@@ -27,8 +27,8 @@
         <span>EmotiKids</span>
       </div>
       <nav class="nav">
-        <button class="nav-btn active" data-view="platform">Plataforma interactiva</button>
-        <button class="nav-btn" data-view="info">Base científica</button>
+        <button class="nav-btn active" data-view="platform">¿Cómo me siento?</button>
+        <button class="nav-btn" data-view="info">Para familias y docentes</button>
       </nav>
     </div>
   </header>
@@ -167,15 +167,15 @@
     <!-- LEFT: Environmental triggers -->
     <aside class="panel panel-left" id="panelLeft">
       <h2 class="panel-title">
-        <span class="panel-icon">🌍</span>
-        Factores del Entorno
+        <span class="panel-icon">⚡</span>
+        ¿Qué me puede activar?
       </h2>
-      <p class="panel-subtitle">Haz clic para activar · <span class="cite-hint">📖 pasa el cursor para la cita</span></p>
+      <p class="panel-subtitle">Toca una cosa para ver qué pasa · <span class="cite-hint">💡 pasa el cursor para saber más</span></p>
       <div class="triggers-grid" id="triggersGrid">
         <!-- injected by JS -->
       </div>
       <div class="stress-meter">
-        <label>Carga acumulada de desregulación</label>
+        <label>🌡️ Mi termómetro emocional</label>
         <div class="stress-bar-wrap">
           <div class="stress-bar" id="stressBar"></div>
         </div>
@@ -241,11 +241,10 @@
       <div class="action-bar">
         <button class="btn-reset" id="btnReset">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-          Reiniciar
+          Empezar de nuevo
         </button>
         <button class="btn-calm" id="btnCalm">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-          Regular al niño
+          ☀️ Encontrar la calma
         </button>
       </div>
     </section>
@@ -253,38 +252,38 @@
     <!-- RIGHT: Symptoms -->
     <aside class="panel panel-right" id="panelRight">
       <h2 class="panel-title">
-        <span class="panel-icon">⚡</span>
-        Síntomas observables
+        <span class="panel-icon">🧠</span>
+        ¿Qué siento en mi cuerpo?
       </h2>
-      <p class="panel-subtitle">Evidenciados en literatura AACC · <span class="cite-hint">📖 pasa el cursor</span></p>
+      <p class="panel-subtitle">Señales que me manda mi cuerpo · <span class="cite-hint">💡 pasa el cursor</span></p>
       <div class="symptoms-list" id="symptomsList">
         <div class="no-symptoms">
-          <span>✅</span>
-          <p>Sin síntomas activos</p>
+          <span>☀️</span>
+          <p>Todo está bien por ahora</p>
         </div>
       </div>
       <div class="regulation-scale">
-        <h3>Escala de regulación (Dabrowski, 1964)</h3>
+        <h3>🌋 La escala del volcán</h3>
         <div class="scale-steps">
           <div class="scale-step step-5" id="step5">
-            <span class="step-num">5</span>
-            <span class="step-label">Crisis / Meltdown</span>
+            <span class="step-num">🌋</span>
+            <span class="step-label">¡VOLCÁN! Crisis total</span>
           </div>
           <div class="scale-step step-4" id="step4">
-            <span class="step-num">4</span>
-            <span class="step-label">Desbordado</span>
+            <span class="step-num">⛈️</span>
+            <span class="step-label">Tormenta — No puedo más</span>
           </div>
           <div class="scale-step step-3" id="step3">
-            <span class="step-num">3</span>
-            <span class="step-label">Sobreexcitado</span>
+            <span class="step-num">☁️</span>
+            <span class="step-label">Nubes grises — Hay demasiado</span>
           </div>
           <div class="scale-step step-2" id="step2">
-            <span class="step-num">2</span>
-            <span class="step-label">Leve malestar</span>
+            <span class="step-num">🌤️</span>
+            <span class="step-label">Nubecita — Algo me molesta</span>
           </div>
           <div class="scale-step step-1 active" id="step1">
-            <span class="step-num">1</span>
-            <span class="step-label">Regulado</span>
+            <span class="step-num">☀️</span>
+            <span class="step-label">Sol — Estoy bien</span>
           </div>
         </div>
       </div>
