@@ -3,10 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Plataforma de Desregulación Infantil</title>
+  <title>EmotiKids — Desregulación en AACC</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
+  <!-- Floating citation tooltip -->
+  <div class="citation-tooltip hidden" id="tooltip">
+    <div class="tooltip-title" id="tooltipTitle"></div>
+    <div class="tooltip-cite" id="tooltipCite"></div>
+    <div class="tooltip-desc" id="tooltipDesc"></div>
+  </div>
+
   <header class="header">
     <div class="header-inner">
       <div class="logo">
@@ -19,51 +27,155 @@
         <span>EmotiKids</span>
       </div>
       <nav class="nav">
-        <button class="nav-btn active" data-view="platform">Plataforma</button>
-        <button class="nav-btn" data-view="info">¿Qué es la desregulación?</button>
+        <button class="nav-btn active" data-view="platform">Plataforma interactiva</button>
+        <button class="nav-btn" data-view="info">Base científica</button>
       </nav>
     </div>
   </header>
 
-  <!-- INFO VIEW -->
+  <!-- ══ INFO / SCIENTIFIC BASIS VIEW ══════════════════════════════════════ -->
   <section class="info-view hidden" id="infoView">
     <div class="info-container">
-      <h1>¿Qué es la Desregulación Emocional?</h1>
-      <p class="info-lead">La desregulación emocional ocurre cuando un niño no puede gestionar sus emociones de manera efectiva frente a ciertos estímulos del entorno.</p>
-      <div class="info-cards">
-        <div class="info-card">
-          <div class="info-icon">🧠</div>
-          <h3>¿Por qué ocurre?</h3>
-          <p>El córtex prefrontal, responsable del control emocional, aún está en desarrollo durante la infancia y la adolescencia. Esto hace que los niños sean más vulnerables a perder el control emocional.</p>
+
+      <div class="info-hero">
+        <h1>Desregulación emocional en niños con AACC</h1>
+        <p class="info-lead">Las Altas Capacidades Cognitivas (AACC) conllevan una sobreexcitabilidad neurológica que amplifica las respuestas emocionales. La desregulación no es patología: es el resultado del desajuste entre necesidades excepcionales y un entorno no adaptado.</p>
+        <div class="info-badge">Basado en literatura científica peer-reviewed</div>
+      </div>
+
+      <!-- Frameworks -->
+      <h2 class="section-heading">Marcos teóricos fundamentales</h2>
+      <div class="framework-grid">
+        <div class="framework-card">
+          <div class="fw-author">Dabrowski (1964)</div>
+          <div class="fw-title">Teoría de la Desintegración Positiva</div>
+          <p>Las cinco sobreexcitabilidades (psicomotriz, sensorial, intelectual, imaginativa y emocional) son la base neurobiológica de la intensidad emocional en personas con AACC. No son déficits: son amplificadores de la experiencia vital.</p>
+          <div class="fw-tag">Sobreexcitabilidades (OE)</div>
         </div>
-        <div class="info-card">
-          <div class="info-icon">⚡</div>
-          <h3>Factores desencadenantes</h3>
-          <p>El ruido, el hambre, el cansancio, los cambios de rutina, la frustración y las interacciones sociales difíciles son los principales factores que pueden desencadenar una crisis.</p>
+        <div class="framework-card">
+          <div class="fw-author">Silverman (2002) · Columbus Group (1991)</div>
+          <div class="fw-title">Desarrollo Asincrónico</div>
+          <p>Las AACC se definen por el desfase entre madurez cognitiva, emocional y social. Este desajuste interno genera confusión regulatoria: el niño comprende conceptos complejos pero carece de herramientas emocionales para procesarlos.</p>
+          <div class="fw-tag">Asincronía evolutiva</div>
         </div>
-        <div class="info-card">
-          <div class="info-icon">🌱</div>
-          <h3>Cómo ayudar</h3>
-          <p>Mantener rutinas, validar las emociones, ofrecer un espacio seguro y enseñar estrategias de autorregulación son claves para ayudar al niño a gestionar sus emociones.</p>
+        <div class="framework-card">
+          <div class="fw-author">Webb et al. (2016) · SENG</div>
+          <div class="fw-title">Doble diagnóstico y diagnóstico erróneo</div>
+          <p>La intensidad emocional y la sobreexcitabilidad de los niños con AACC son frecuentemente malinterpretadas como TDAH, trastorno bipolar, TOC o TOD. El diagnóstico erróneo cronifica la desregulación al no atender las necesidades reales.</p>
+          <div class="fw-tag">Misdiagnosis framework</div>
+        </div>
+        <div class="framework-card">
+          <div class="fw-author">Gere et al. (2009)</div>
+          <div class="fw-title">Procesamiento Sensorial en AACC</div>
+          <p>Estudio empírico que documenta respuestas de procesamiento sensorial significativamente más elevadas en niños con AACC en modalidades auditiva, vestibular, táctil y de modulación conductual. Es un hallazgo neurobiológico, no conductual.</p>
+          <div class="fw-tag">Sensory Processing Sensitivity</div>
+        </div>
+        <div class="framework-card">
+          <div class="fw-author">Piechowski (1989)</div>
+          <div class="fw-title">Potencial de Desarrollo e Intensidad Emocional</div>
+          <p>La intensidad emocional en niños con AACC no es disregulación patológica sino un marcador de potencial de desarrollo más profundo. Los sentimientos son vividos de forma más intensa, duradera y multiestratificada que en sus pares.</p>
+          <div class="fw-tag">Emotional overexcitability</div>
+        </div>
+        <div class="framework-card">
+          <div class="fw-author">Neihart et al. (2002)</div>
+          <div class="fw-title">Desarrollo Social y Emocional en AACC</div>
+          <p>Revisión exhaustiva de factores de riesgo: aislamiento social por falta de pares intelectuales, perfeccionismo, sensibilidad moral elevada y vulnerabilidad a la depresión cuando las necesidades educativas y emocionales no son cubiertas.</p>
+          <div class="fw-tag">Riesgo psicosocial</div>
+        </div>
+      </div>
+
+      <!-- Key distinction -->
+      <div class="distinction-box">
+        <div class="distinction-icon">⚠️</div>
+        <div>
+          <strong>Distinción clave (Piechowski, 1989; Webb et al., 2016):</strong>
+          La <em>intensidad emocional</em> y la <em>sobreexcitabilidad</em> son rasgos normativos del desarrollo en AACC.
+          La <em>desregulación</em> ocurre cuando estos rasgos interactúan con desajustes ambientales, necesidades no cubiertas y falta de comprensión, generando respuestas maladaptativas.
+        </div>
+      </div>
+
+      <!-- References -->
+      <h2 class="section-heading">Referencias bibliográficas</h2>
+      <div class="refs-list">
+        <div class="ref-item">
+          <span class="ref-year">1964</span>
+          <div>
+            <strong>Dabrowski, K.</strong> (1964). <em>Positive Disintegration.</em> Little Brown. — Teoría de las sobreexcitabilidades en el desarrollo del potencial.
+          </div>
+        </div>
+        <div class="ref-item">
+          <span class="ref-year">1989</span>
+          <div>
+            <strong>Piechowski, M. M.</strong> (1989). Developmental potential and the growth of the self. En J. VanTassel-Baska & P. Olszewski-Kubilius (Eds.), <em>Patterns of Influence on Gifted Learners.</em> Teachers College Press.
+          </div>
+        </div>
+        <div class="ref-item">
+          <span class="ref-year">1991</span>
+          <div>
+            <strong>Columbus Group.</strong> (1991). Unpublished transcript of the meeting of the Columbus Group. Columbus, OH. — Definición de asincronía evolutiva en AACC.
+          </div>
+        </div>
+        <div class="ref-item">
+          <span class="ref-year">2001</span>
+          <div>
+            <strong>Lind, S.</strong> (2001). Overexcitability and the gifted. <em>SENG Newsletter, 1</em>(1), 3–6. — Descripción clínica de las sobreexcitabilidades aplicada a AACC.
+          </div>
+        </div>
+        <div class="ref-item">
+          <span class="ref-year">2002</span>
+          <div>
+            <strong>Greenspon, T. S.</strong> (2002). <em>Freeing our families from perfectionism.</em> Free Spirit Publishing. — Perfeccionismo en niños con altas capacidades.
+          </div>
+        </div>
+        <div class="ref-item">
+          <span class="ref-year">2002</span>
+          <div>
+            <strong>Neihart, M., Reis, S. M., Robinson, N. M., &amp; Moon, S. M.</strong> (Eds.). (2002). <em>The Social and Emotional Development of Gifted Children: What Do We Know?</em> Prufrock Press.
+          </div>
+        </div>
+        <div class="ref-item">
+          <span class="ref-year">2002</span>
+          <div>
+            <strong>Silverman, L. K.</strong> (2002). <em>Upside-Down Brilliance: The Visual-Spatial Learner.</em> DeLeon Publishing. — Modelo de asincronía y perfil emocional en AACC.
+          </div>
+        </div>
+        <div class="ref-item">
+          <span class="ref-year">2009</span>
+          <div>
+            <strong>Daniels, S., &amp; Piechowski, M. M.</strong> (Eds.). (2009). <em>Living with Intensity: Understanding the Sensitivity, Excitability, and Emotional Development of Gifted Children, Adolescents, and Adults.</em> Great Potential Press.
+          </div>
+        </div>
+        <div class="ref-item">
+          <span class="ref-year">2009</span>
+          <div>
+            <strong>Gere, D. R., Capps, S. C., Mitchell, D. W., &amp; Grubbs, E.</strong> (2009). Sensory sensitivities of gifted children. <em>American Journal of Occupational Therapy, 63</em>(3), 288–295. <em>doi:10.5014/ajot.63.3.288</em>
+          </div>
+        </div>
+        <div class="ref-item">
+          <span class="ref-year">2016</span>
+          <div>
+            <strong>Webb, J. T., Amend, E. R., Beljan, P., Webb, N. E., Kuzujanakis, M., Olenchak, F. R., &amp; Goerss, J.</strong> (2016). <em>Misdiagnosis and Dual Diagnoses of Gifted Children and Adults: ADHD, Bipolar, OCD, Asperger's, Depression, and Other Disorders</em> (2nd ed.). Great Potential Press.
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- MAIN PLATFORM VIEW -->
+  <!-- ══ MAIN PLATFORM VIEW ════════════════════════════════════════════════ -->
   <main class="platform" id="platformView">
-    <!-- LEFT PANEL: Environmental triggers -->
+
+    <!-- LEFT: Environmental triggers -->
     <aside class="panel panel-left" id="panelLeft">
       <h2 class="panel-title">
         <span class="panel-icon">🌍</span>
         Factores del Entorno
       </h2>
-      <p class="panel-subtitle">Haz clic para activar un factor</p>
+      <p class="panel-subtitle">Haz clic para activar · <span class="cite-hint">📖 pasa el cursor para la cita</span></p>
       <div class="triggers-grid" id="triggersGrid">
         <!-- injected by JS -->
       </div>
       <div class="stress-meter">
-        <label>Nivel de estrés acumulado</label>
+        <label>Carga acumulada de desregulación</label>
         <div class="stress-bar-wrap">
           <div class="stress-bar" id="stressBar"></div>
         </div>
@@ -77,93 +189,55 @@
         <div class="environment-effects" id="envEffects"></div>
 
         <div class="child-wrap" id="childWrap">
-          <!-- Speech bubble -->
           <div class="speech-bubble hidden" id="speechBubble">
             <span id="speechText"></span>
           </div>
 
-          <!-- Child SVG -->
           <div class="child-svg-container" id="childSvgContainer">
             <svg id="childSvg" viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg">
-              <!-- Shadow -->
               <ellipse cx="100" cy="370" rx="45" ry="8" fill="rgba(0,0,0,0.1)" id="shadow"/>
-
-              <!-- Body -->
               <rect id="body" x="65" y="160" width="70" height="90" rx="16" fill="#FFB347"/>
-
-              <!-- Arms -->
               <rect id="armL" x="28" y="162" width="38" height="20" rx="10" fill="#FFB347" transform-origin="66 172"/>
               <rect id="armR" x="134" y="162" width="38" height="20" rx="10" fill="#FFB347" transform-origin="134 172"/>
-
-              <!-- Legs -->
               <rect id="legL" x="72" y="248" width="24" height="60" rx="10" fill="#7B68EE"/>
               <rect id="legR" x="104" y="248" width="24" height="60" rx="10" fill="#7B68EE"/>
-
-              <!-- Feet -->
               <ellipse id="footL" cx="84" cy="308" rx="16" ry="10" fill="#5A52CC"/>
               <ellipse id="footR" cx="116" cy="308" rx="16" ry="10" fill="#5A52CC"/>
-
-              <!-- Neck -->
               <rect x="88" y="148" width="24" height="18" rx="6" fill="#FFB347"/>
-
-              <!-- Head -->
               <circle id="head" cx="100" cy="120" r="52" fill="#FFDAB9"/>
-
-              <!-- Hair -->
               <path id="hair" d="M52 115 Q55 65 100 62 Q145 65 148 115 Q130 95 100 94 Q70 95 52 115Z" fill="#5C3317"/>
-
-              <!-- Ears -->
               <ellipse cx="50" cy="122" rx="10" ry="13" fill="#FFDAB9"/>
               <ellipse cx="150" cy="122" rx="10" ry="13" fill="#FFDAB9"/>
               <ellipse cx="50" cy="122" rx="6" ry="9" fill="#F4A882"/>
               <ellipse cx="150" cy="122" rx="6" ry="9" fill="#F4A882"/>
-
-              <!-- Eyes group -->
               <g id="eyesGroup">
-                <!-- Left eye -->
                 <ellipse id="eyeLwhite" cx="82" cy="118" rx="12" ry="13" fill="white"/>
                 <circle id="eyeLpupil" cx="82" cy="120" r="7" fill="#3D2B1F"/>
                 <circle cx="85" cy="117" r="2.5" fill="white"/>
                 <path id="eyeLbrow" d="M70 103 Q82 98 94 103" stroke="#5C3317" stroke-width="3" fill="none" stroke-linecap="round"/>
-
-                <!-- Right eye -->
                 <ellipse id="eyeRwhite" cx="118" cy="118" rx="12" ry="13" fill="white"/>
                 <circle id="eyeRpupil" cx="118" cy="120" r="7" fill="#3D2B1F"/>
                 <circle cx="121" cy="117" r="2.5" fill="white"/>
                 <path id="eyeRbrow" d="M106 103 Q118 98 130 103" stroke="#5C3317" stroke-width="3" fill="none" stroke-linecap="round"/>
               </g>
-
-              <!-- Nose -->
               <ellipse cx="100" cy="130" rx="5" ry="4" fill="#F4A882"/>
-
-              <!-- Mouth -->
               <path id="mouth" d="M85 143 Q100 153 115 143" stroke="#CC6B4A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-
-              <!-- Blush circles -->
               <ellipse id="blushL" cx="68" cy="136" rx="10" ry="7" fill="#FF9999" opacity="0"/>
               <ellipse id="blushR" cx="132" cy="136" rx="10" ry="7" fill="#FF9999" opacity="0"/>
-
-              <!-- Tears -->
               <ellipse id="tearL" cx="78" cy="140" rx="4" ry="6" fill="#87CEEB" opacity="0"/>
               <ellipse id="tearR" cx="122" cy="140" rx="4" ry="6" fill="#87CEEB" opacity="0"/>
-
-              <!-- Sweat drop -->
               <path id="sweat" d="M145 95 Q148 88 151 95 Q151 101 148 103 Q145 101 145 95Z" fill="#87CEEB" opacity="0"/>
             </svg>
-
-            <!-- Symptom bubbles around child -->
             <div class="symptom-bubbles" id="symptomBubbles"></div>
           </div>
 
-          <!-- State label -->
           <div class="state-label" id="stateLabel">
             <span class="state-emoji" id="stateEmoji">😊</span>
-            <span class="state-text" id="stateText">Tranquilo</span>
+            <span class="state-text" id="stateText">Regulado</span>
           </div>
         </div>
       </div>
 
-      <!-- Action buttons -->
       <div class="action-bar">
         <button class="btn-reset" id="btnReset">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
@@ -171,18 +245,18 @@
         </button>
         <button class="btn-calm" id="btnCalm">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-          Calmar al niño
+          Regular al niño
         </button>
       </div>
     </section>
 
-    <!-- RIGHT PANEL: Symptoms -->
+    <!-- RIGHT: Symptoms -->
     <aside class="panel panel-right" id="panelRight">
       <h2 class="panel-title">
         <span class="panel-icon">⚡</span>
-        Síntomas
+        Síntomas observables
       </h2>
-      <p class="panel-subtitle">Señales de desregulación activas</p>
+      <p class="panel-subtitle">Evidenciados en literatura AACC · <span class="cite-hint">📖 pasa el cursor</span></p>
       <div class="symptoms-list" id="symptomsList">
         <div class="no-symptoms">
           <span>✅</span>
@@ -190,34 +264,33 @@
         </div>
       </div>
       <div class="regulation-scale">
-        <h3>Escala de regulación</h3>
+        <h3>Escala de regulación (Dabrowski, 1964)</h3>
         <div class="scale-steps">
-          <div class="scale-step step-5 active" id="step5">
+          <div class="scale-step step-5" id="step5">
             <span class="step-num">5</span>
-            <span class="step-label">Crisis total</span>
+            <span class="step-label">Crisis / Meltdown</span>
           </div>
           <div class="scale-step step-4" id="step4">
             <span class="step-num">4</span>
-            <span class="step-label">Muy angustiado</span>
+            <span class="step-label">Desbordado</span>
           </div>
           <div class="scale-step step-3" id="step3">
             <span class="step-num">3</span>
-            <span class="step-label">Irritable</span>
+            <span class="step-label">Sobreexcitado</span>
           </div>
           <div class="scale-step step-2" id="step2">
             <span class="step-num">2</span>
             <span class="step-label">Leve malestar</span>
           </div>
-          <div class="scale-step step-1" id="step1">
+          <div class="scale-step step-1 active" id="step1">
             <span class="step-num">1</span>
-            <span class="step-label">Tranquilo</span>
+            <span class="step-label">Regulado</span>
           </div>
         </div>
       </div>
     </aside>
   </main>
 
-  <!-- TOAST -->
   <div class="toast hidden" id="toast"></div>
 
   <script src="app.js"></script>
