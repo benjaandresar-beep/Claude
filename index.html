@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plataforma de Desregulación Infantil</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" stroke="#6C63FF" stroke-width="2"/>
+          <path d="M10 20 Q16 14 22 20" stroke="#6C63FF" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <circle cx="12" cy="13" r="2" fill="#6C63FF"/>
+          <circle cx="20" cy="13" r="2" fill="#6C63FF"/>
+        </svg>
+        <span>EmotiKids</span>
+      </div>
+      <nav class="nav">
+        <button class="nav-btn active" data-view="platform">Plataforma</button>
+        <button class="nav-btn" data-view="info">¿Qué es la desregulación?</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- INFO VIEW -->
+  <section class="info-view hidden" id="infoView">
+    <div class="info-container">
+      <h1>¿Qué es la Desregulación Emocional?</h1>
+      <p class="info-lead">La desregulación emocional ocurre cuando un niño no puede gestionar sus emociones de manera efectiva frente a ciertos estímulos del entorno.</p>
+      <div class="info-cards">
+        <div class="info-card">
+          <div class="info-icon">🧠</div>
+          <h3>¿Por qué ocurre?</h3>
+          <p>El córtex prefrontal, responsable del control emocional, aún está en desarrollo durante la infancia y la adolescencia. Esto hace que los niños sean más vulnerables a perder el control emocional.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">⚡</div>
+          <h3>Factores desencadenantes</h3>
+          <p>El ruido, el hambre, el cansancio, los cambios de rutina, la frustración y las interacciones sociales difíciles son los principales factores que pueden desencadenar una crisis.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🌱</div>
+          <h3>Cómo ayudar</h3>
+          <p>Mantener rutinas, validar las emociones, ofrecer un espacio seguro y enseñar estrategias de autorregulación son claves para ayudar al niño a gestionar sus emociones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN PLATFORM VIEW -->
+  <main class="platform" id="platformView">
+    <!-- LEFT PANEL: Environmental triggers -->
+    <aside class="panel panel-left" id="panelLeft">
+      <h2 class="panel-title">
+        <span class="panel-icon">🌍</span>
+        Factores del Entorno
+      </h2>
+      <p class="panel-subtitle">Haz clic para activar un factor</p>
+      <div class="triggers-grid" id="triggersGrid">
+        <!-- injected by JS -->
+      </div>
+      <div class="stress-meter">
+        <label>Nivel de estrés acumulado</label>
+        <div class="stress-bar-wrap">
+          <div class="stress-bar" id="stressBar"></div>
+        </div>
+        <span class="stress-label" id="stressLabel">0%</span>
+      </div>
+    </aside>
+
+    <!-- CENTER: Child visual -->
+    <section class="center-stage">
+      <div class="scene" id="scene">
+        <div class="environment-effects" id="envEffects"></div>
+
+        <div class="child-wrap" id="childWrap">
+          <!-- Speech bubble -->
+          <div class="speech-bubble hidden" id="speechBubble">
+            <span id="speechText"></span>
+          </div>
+
+          <!-- Child SVG -->
+          <div class="child-svg-container" id="childSvgContainer">
+            <svg id="childSvg" viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg">
+              <!-- Shadow -->
+              <ellipse cx="100" cy="370" rx="45" ry="8" fill="rgba(0,0,0,0.1)" id="shadow"/>
+
+              <!-- Body -->
+              <rect id="body" x="65" y="160" width="70" height="90" rx="16" fill="#FFB347"/>
+
+              <!-- Arms -->
+              <rect id="armL" x="28" y="162" width="38" height="20" rx="10" fill="#FFB347" transform-origin="66 172"/>
+              <rect id="armR" x="134" y="162" width="38" height="20" rx="10" fill="#FFB347" transform-origin="134 172"/>
+
+              <!-- Legs -->
+              <rect id="legL" x="72" y="248" width="24" height="60" rx="10" fill="#7B68EE"/>
+              <rect id="legR" x="104" y="248" width="24" height="60" rx="10" fill="#7B68EE"/>
+
+              <!-- Feet -->
+              <ellipse id="footL" cx="84" cy="308" rx="16" ry="10" fill="#5A52CC"/>
+              <ellipse id="footR" cx="116" cy="308" rx="16" ry="10" fill="#5A52CC"/>
+
+              <!-- Neck -->
+              <rect x="88" y="148" width="24" height="18" rx="6" fill="#FFB347"/>
+
+              <!-- Head -->
+              <circle id="head" cx="100" cy="120" r="52" fill="#FFDAB9"/>
+
+              <!-- Hair -->
+              <path id="hair" d="M52 115 Q55 65 100 62 Q145 65 148 115 Q130 95 100 94 Q70 95 52 115Z" fill="#5C3317"/>
+
+              <!-- Ears -->
+              <ellipse cx="50" cy="122" rx="10" ry="13" fill="#FFDAB9"/>
+              <ellipse cx="150" cy="122" rx="10" ry="13" fill="#FFDAB9"/>
+              <ellipse cx="50" cy="122" rx="6" ry="9" fill="#F4A882"/>
+              <ellipse cx="150" cy="122" rx="6" ry="9" fill="#F4A882"/>
+
+              <!-- Eyes group -->
+              <g id="eyesGroup">
+                <!-- Left eye -->
+                <ellipse id="eyeLwhite" cx="82" cy="118" rx="12" ry="13" fill="white"/>
+                <circle id="eyeLpupil" cx="82" cy="120" r="7" fill="#3D2B1F"/>
+                <circle cx="85" cy="117" r="2.5" fill="white"/>
+                <path id="eyeLbrow" d="M70 103 Q82 98 94 103" stroke="#5C3317" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+                <!-- Right eye -->
+                <ellipse id="eyeRwhite" cx="118" cy="118" rx="12" ry="13" fill="white"/>
+                <circle id="eyeRpupil" cx="118" cy="120" r="7" fill="#3D2B1F"/>
+                <circle cx="121" cy="117" r="2.5" fill="white"/>
+                <path id="eyeRbrow" d="M106 103 Q118 98 130 103" stroke="#5C3317" stroke-width="3" fill="none" stroke-linecap="round"/>
+              </g>
+
+              <!-- Nose -->
+              <ellipse cx="100" cy="130" rx="5" ry="4" fill="#F4A882"/>
+
+              <!-- Mouth -->
+              <path id="mouth" d="M85 143 Q100 153 115 143" stroke="#CC6B4A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+              <!-- Blush circles -->
+              <ellipse id="blushL" cx="68" cy="136" rx="10" ry="7" fill="#FF9999" opacity="0"/>
+              <ellipse id="blushR" cx="132" cy="136" rx="10" ry="7" fill="#FF9999" opacity="0"/>
+
+              <!-- Tears -->
+              <ellipse id="tearL" cx="78" cy="140" rx="4" ry="6" fill="#87CEEB" opacity="0"/>
+              <ellipse id="tearR" cx="122" cy="140" rx="4" ry="6" fill="#87CEEB" opacity="0"/>
+
+              <!-- Sweat drop -->
+              <path id="sweat" d="M145 95 Q148 88 151 95 Q151 101 148 103 Q145 101 145 95Z" fill="#87CEEB" opacity="0"/>
+            </svg>
+
+            <!-- Symptom bubbles around child -->
+            <div class="symptom-bubbles" id="symptomBubbles"></div>
+          </div>
+
+          <!-- State label -->
+          <div class="state-label" id="stateLabel">
+            <span class="state-emoji" id="stateEmoji">😊</span>
+            <span class="state-text" id="stateText">Tranquilo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="action-bar">
+        <button class="btn-reset" id="btnReset">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Reiniciar
+        </button>
+        <button class="btn-calm" id="btnCalm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          Calmar al niño
+        </button>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: Symptoms -->
+    <aside class="panel panel-right" id="panelRight">
+      <h2 class="panel-title">
+        <span class="panel-icon">⚡</span>
+        Síntomas
+      </h2>
+      <p class="panel-subtitle">Señales de desregulación activas</p>
+      <div class="symptoms-list" id="symptomsList">
+        <div class="no-symptoms">
+          <span>✅</span>
+          <p>Sin síntomas activos</p>
+        </div>
+      </div>
+      <div class="regulation-scale">
+        <h3>Escala de regulación</h3>
+        <div class="scale-steps">
+          <div class="scale-step step-5 active" id="step5">
+            <span class="step-num">5</span>
+            <span class="step-label">Crisis total</span>
+          </div>
+          <div class="scale-step step-4" id="step4">
+            <span class="step-num">4</span>
+            <span class="step-label">Muy angustiado</span>
+          </div>
+          <div class="scale-step step-3" id="step3">
+            <span class="step-num">3</span>
+            <span class="step-label">Irritable</span>
+          </div>
+          <div class="scale-step step-2" id="step2">
+            <span class="step-num">2</span>
+            <span class="step-label">Leve malestar</span>
+          </div>
+          <div class="scale-step step-1" id="step1">
+            <span class="step-num">1</span>
+            <span class="step-label">Tranquilo</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- TOAST -->
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
