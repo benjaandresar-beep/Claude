@@ -3,6 +3,130 @@
 // ── Datos — lenguaje adaptado para niño AACC + TEA de 10 años ───────────────
 // Las citas científicas se mantienen para educadores/familias (tooltip inferior)
 
+// ── Recomendaciones por nivel del volcán (0=sol … 4=volcán) ─────────────────
+const RECOMMENDATIONS = [
+  {
+    badge: '☀️ Nivel 1 · Sol',
+    title: '¡Estás bien! Así se siente estar regulado',
+    color: '#2E7D32', bg: '#E8F5E9', accent: '#4CAF50',
+    cite: 'Neihart et al. (2002); Silverman (2002)',
+    nna: [
+      { icon: '📝', text: 'Anota o dibuja cómo te sientes ahora — así podrás recordarlo cuando lleguen las nubes' },
+      { icon: '⭐', text: 'Haz algo que te encante: tu proyecto favorito, tu libro, tu juego — eso recarga la batería' },
+      { icon: '🌬️', text: 'Practica la respiración: 4 segundos entro, 4 aguanto, 4 suelto — así cuando lleguen las nubes ya sabrás hacerlo' },
+      { icon: '🔍', text: '¿Qué hace que hoy estés bien? Piénsalo — ese dato es muy valioso para ti' },
+    ],
+    school: [
+      { icon: '🧩', text: 'Ofrecer retos intelectuales nuevos y difíciles — el cerebro AACC necesita desafíos reales para mantenerse bien' },
+      { icon: '📅', text: 'Anticipar los cambios de horario o rutina con suficiente tiempo de antelación' },
+      { icon: '🪑', text: 'Permitir elegir dónde sentarse y cómo organizar su trabajo' },
+      { icon: '🎯', text: 'Conectar los contenidos con sus intereses especiales cuando sea posible' },
+    ],
+    family: [
+      { icon: '🔄', text: 'Mantener la rutina diaria — la predictibilidad es como un ancla de seguridad para el cerebro AACC + TEA' },
+      { icon: '💛', text: 'Compartir tiempo de calidad en sus intereses especiales, sin presión de tiempo' },
+      { icon: '🎉', text: 'Celebrar este momento de bienestar — sin presionar para que "siempre sea así"' },
+      { icon: '🗣️', text: 'Hablar en un momento tranquilo sobre qué cosas le ayudan a sentirse bien — crear su "mapa de la calma"' },
+    ],
+  },
+  {
+    badge: '🌤️ Nivel 2 · Nubecita',
+    title: 'Algo molesta — actúa pronto antes de que crezca',
+    color: '#558B2F', bg: '#F9FBE7', accent: '#8BC34A',
+    cite: 'Lind (2001); Daniels & Piechowski (2009)',
+    nna: [
+      { icon: '🔤', text: 'Pon nombre a lo que sientes: ¿es ruido? ¿aburrimiento? ¿algo injusto? Nombrar la emoción la hace más pequeña' },
+      { icon: '🎧', text: 'Busca tus auriculares, tu objeto favorito o tu manta suave — los objetos de regulación funcionan de verdad' },
+      { icon: '⏸️', text: 'Pide un descanso de 5 minutos — puedes decir exactamente esto: "Necesito un momento"' },
+      { icon: '🤝', text: 'Dile a alguien de confianza: "Algo me está molestando" — no tienes que explicar todo' },
+    ],
+    school: [
+      { icon: '🎧', text: 'Ofrecer auriculares anti-ruido o espacio tranquilo sin pedir explicaciones ni preguntas' },
+      { icon: '🌅', text: 'Reducir estímulos del aula: bajar persianas, volumen más bajo, menos movimiento alrededor' },
+      { icon: '✅', text: 'Hacer check-in breve con el adulto de confianza — una pregunta, sin presión' },
+      { icon: '⏳', text: 'Dar tiempo extra en las tareas — la presión de tiempo empeora la sobrecarga' },
+    ],
+    family: [
+      { icon: '🔇', text: 'Bajar el volumen de la casa: menos ruidos, televisión más baja, voz calmada' },
+      { icon: '💬', text: 'Validar sin minimizar: "Tiene sentido que eso te moleste" — no decir "no es para tanto"' },
+      { icon: '🛁', text: 'Ofrecer actividades reguladoras: agua caliente (ducha, baño), música suave, movimiento ligero' },
+      { icon: '🚫', text: 'Evitar añadir más obligaciones o preguntas — menos exigencias es más ayuda en este momento' },
+    ],
+  },
+  {
+    badge: '☁️ Nivel 3 · Nubes grises',
+    title: '¡Hay demasiado! Es el momento de actuar',
+    color: '#F57F17', bg: '#FFFDE7', accent: '#FFC107',
+    cite: 'Gere et al. (2009); Webb et al. (2016)',
+    nna: [
+      { icon: '🌬️', text: 'Respiración cuadrada: 4 segundos entro, 4 aguanto, 4 suelto, 4 espero — repite 4 veces seguidas' },
+      { icon: '🏠', text: 'Ve a tu espacio seguro — ese lugar donde puedes ser tú sin que nadie te observe ni te pida nada' },
+      { icon: '🏃', text: 'Mueve el cuerpo: salta 10 veces, camina rápido o aprieta fuerte algo blando con las manos' },
+      { icon: '📢', text: 'Di en voz alta o escríbelo: "Ahora mismo hay demasiado de ___" — poner palabras ayuda al cerebro' },
+    ],
+    school: [
+      { icon: '🚶', text: 'Llevar al niño/a a la sala de calma — sin castigo, sin explicaciones largas, sin tono de reproche' },
+      { icon: '🤫', text: 'No añadir nuevas demandas — esperar a que baje la activación antes de cualquier tarea' },
+      { icon: '❓', text: 'Evitar preguntas o pedir explicaciones — el cerebro activado no puede procesar palabras bien' },
+      { icon: '📋', text: 'Usar apoyos visuales o tarjetas en lugar de instrucciones verbales' },
+    ],
+    family: [
+      { icon: '📺', text: 'Apagar pantallas y reducir todos los ruidos del hogar — cada estímulo extra suma carga emocional' },
+      { icon: '🗣️', text: 'Hablar menos y con voz muy baja — el tono del adulto regula directamente el sistema nervioso del niño/a' },
+      { icon: '⏰', text: 'Anticipar la siguiente transición con mucho tiempo: "En 10 minutos vamos a hacer X"' },
+      { icon: '🤲', text: 'Ofrecer presión profunda si le gusta: abrazo firme, manta pesada, masaje en hombros' },
+    ],
+  },
+  {
+    badge: '⛈️ Nivel 4 · Tormenta',
+    title: '¡No puedo más! Necesito ayuda ahora mismo',
+    color: '#E65100', bg: '#FFF3E0', accent: '#FF9800',
+    cite: 'Webb et al. (2016); Siegel & Bryson (2012)',
+    nna: [
+      { icon: '🏃', text: 'Ve a tu lugar seguro AHORA — no tienes que hablar ni explicar nada a nadie' },
+      { icon: '🤐', text: 'No tienes que hablar — solo estar en el sitio seguro hasta que baje la tormenta sola' },
+      { icon: '🆘', text: 'Si puedes, dile a alguien exactamente esto: "Necesito ayuda, estoy al límite"' },
+      { icon: '🎧', text: 'Pon tu música de calma, agarra tu objeto sensorial — lo que te funcione a ti' },
+    ],
+    school: [
+      { icon: '🚶', text: 'Sacar al niño/a del ambiente con pocas palabras — una acción clara, no un discurso' },
+      { icon: '🌑', text: 'Sala de calma: luz tenue o apagada, sin ruidos, sin demandas, sin preguntas' },
+      { icon: '📵', text: 'Presencia tranquila del adulto — sin intentar solucionar nada todavía' },
+      { icon: '📞', text: 'Avisar a la familia — el protocolo de coordinación colegio-familia debe activarse ahora' },
+    ],
+    family: [
+      { icon: '😤', text: 'Lo más importante: mantener TU calma — la regulación del adulto regula al niño/a (Siegel & Bryson, 2012)' },
+      { icon: '🚫', text: 'No añadir demandas, no razonar, no gritar — el cerebro no puede procesar instrucciones ahora' },
+      { icon: '🤲', text: 'Presencia tranquila: "Estoy aquí. No pasa nada. Puedes descansar"' },
+      { icon: '🔒', text: 'Asegurar el entorno — dar espacio y retirar objetos que puedan causar daño' },
+    ],
+  },
+  {
+    badge: '🌋 Nivel 5 · Volcán',
+    title: '🌋 VOLCÁN — Seguridad primero',
+    color: '#B71C1C', bg: '#FFEBEE', accent: '#F44336',
+    cite: 'Dabrowski (1964); Neihart et al. (2002); Webb et al. (2016)',
+    nna: [
+      { icon: '💛', text: 'Esto siempre termina. Siempre. No estás roto/a — es tu cerebro haciendo lo que sabe cuando es demasiado' },
+      { icon: '⏸️', text: 'No tienes que hacer nada ahora mismo. Solo dejar que la lava baje sola, poco a poco' },
+      { icon: '🏃', text: 'Si puedes moverte, ve a donde no haya nadie ni ruido — el espacio físico ayuda mucho' },
+      { icon: '🔮', text: 'Después, cuando estés tranquilo/a, hablaremos de qué pasó y de cómo evitarlo la próxima vez' },
+    ],
+    school: [
+      { icon: '🛡️', text: 'Seguridad primero — dar espacio físico amplio y retirar objetos peligrosos' },
+      { icon: '🤐', text: 'Presencia tranquila y silenciosa — sin palabras, sin preguntas, sin amenazas, sin sermones' },
+      { icon: '🚫', text: 'NO intentar razonar, NO castigar, NO aumentar la presión — esto prolonga la crisis' },
+      { icon: '📋', text: 'Documentar qué desencadenó la crisis para crear un plan de prevención con la familia' },
+    ],
+    family: [
+      { icon: '💨', text: 'Respira hondo tú también — tu sistema nervioso le habla directamente al suyo (Siegel & Bryson, 2012)' },
+      { icon: '🚫', text: 'No razonar, no castigar, no gritar — el cerebro en volcán no puede procesar ninguna instrucción' },
+      { icon: '⏳', text: 'Esperar a que pase — después viene la reconexión tranquila, sin reproches ni "lecciones"' },
+      { icon: '🩺', text: 'Si las crisis son frecuentes, buscar orientación de un psicólogo especializado en AACC y TEA' },
+    ],
+  },
+];
+
 const TRIGGERS = [
   {
     id: 'sensory',
@@ -250,6 +374,16 @@ const tooltipTitle   = document.getElementById('tooltipTitle');
 const tooltipCite    = document.getElementById('tooltipCite');
 const tooltipDesc    = document.getElementById('tooltipDesc');
 
+// Recommendations section
+const recSection     = document.getElementById('recSection');
+const recHeader      = document.getElementById('recHeader');
+const recBadge       = document.getElementById('recBadge');
+const recTitle       = document.getElementById('recTitle');
+const recCite        = document.getElementById('recCite');
+const recListNNA     = document.getElementById('recListNNA');
+const recListSchool  = document.getElementById('recListSchool');
+const recListFamily  = document.getElementById('recListFamily');
+
 // SVG face
 const mouth     = document.getElementById('mouth');
 const blushL    = document.getElementById('blushL');
@@ -268,9 +402,11 @@ function init() {
   renderTriggers();
   setupNav();
   setupTooltip();
+  setupRecNav();
   btnReset.addEventListener('click', resetAll);
   btnCalm.addEventListener('click', calmChild);
   setStateVisuals(0);
+  updateRecommendations(0);
 }
 
 // ── Render Triggers ──────────────────────────────────────────────────────────
@@ -352,6 +488,7 @@ function setStateVisuals(idx) {
   STATES.forEach(s => scene.classList.remove(s.sceneClass));
   scene.classList.add(state.sceneClass);
   updateFace(idx);
+  updateRecommendations(idx);
 }
 
 function updateFace(idx) {
@@ -578,6 +715,59 @@ function showToast(msg) {
     toast.classList.remove('show');
     setTimeout(() => toast.classList.add('hidden'), 300);
   }, 2500);
+}
+
+// ── Recommendations ───────────────────────────────────────────────────────────
+
+function updateRecommendations(idx) {
+  const rec = RECOMMENDATIONS[idx];
+
+  recBadge.textContent = rec.badge;
+  recTitle.textContent = rec.title;
+  recCite.textContent  = '📚 ' + rec.cite;
+
+  recHeader.style.background   = rec.bg;
+  recHeader.style.borderColor  = rec.accent;
+  recBadge.style.background    = rec.accent;
+  recSection.style.setProperty('--rec-accent', rec.accent);
+
+  renderRecList(recListNNA,    rec.nna);
+  renderRecList(recListSchool, rec.school);
+  renderRecList(recListFamily, rec.family);
+
+  // Sync browse nav buttons
+  document.querySelectorAll('.rec-nav-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.level) === idx);
+    b.style.setProperty('--btn-accent', RECOMMENDATIONS[parseInt(b.dataset.level)].accent);
+  });
+}
+
+function renderRecList(container, items) {
+  container.innerHTML = items.map(item =>
+    `<li class="rec-item">
+       <span class="rec-item-icon">${item.icon}</span>
+       <span class="rec-item-text">${item.text}</span>
+     </li>`
+  ).join('');
+}
+
+function setupRecNav() {
+  document.querySelectorAll('.rec-nav-btn').forEach(btn => {
+    const lvl = parseInt(btn.dataset.level);
+    btn.addEventListener('click', () => {
+      updateRecommendations(lvl);
+    });
+  });
+
+  // Also make scale steps clickable to preview their recommendations
+  document.querySelectorAll('.scale-step').forEach(step => {
+    step.style.cursor = 'pointer';
+    step.addEventListener('click', () => {
+      const lvl = parseInt(step.dataset.level);
+      updateRecommendations(lvl);
+      recSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 }
 
 // ── Nav ────────────────────────────────────────────────────────────────────────

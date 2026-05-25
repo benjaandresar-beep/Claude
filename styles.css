@@ -821,6 +821,183 @@ body {
   75% { transform: rotate(3deg); }
 }
 
+/* ── Platform wrapper ── */
+#platformView { display: flex; flex-direction: column; }
+
+/* ══ Recommendations Section ══════════════════════════════════════════════ */
+.rec-section {
+  --rec-accent: #4CAF50;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 16px 32px;
+}
+
+/* Header */
+.rec-header {
+  border-radius: var(--radius);
+  border: 2px solid var(--rec-accent, #4CAF50);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  transition: background .4s, border-color .4s;
+}
+
+.rec-header-left { flex: 1; min-width: 200px; }
+
+.rec-badge {
+  display: inline-block;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-bottom: 8px;
+  transition: background .4s;
+}
+
+.rec-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.rec-cite {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Browse nav */
+.rec-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.rec-nav-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.rec-nav-btn {
+  --btn-accent: #4CAF50;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.rec-nav-btn:hover {
+  border-color: var(--btn-accent);
+  transform: scale(1.1);
+}
+
+.rec-nav-btn.active {
+  border-color: var(--btn-accent);
+  background: var(--btn-accent);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+  transform: scale(1.12);
+}
+
+/* Cards grid */
+.rec-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.rec-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rec-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.rec-card-icon { font-size: 1.8rem; flex-shrink: 0; }
+
+.rec-card-header h3 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 2px;
+}
+
+.rec-card-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Accent bar per card type */
+.rec-nna    { border-top: 4px solid #3B82F6; }
+.rec-school { border-top: 4px solid #F59E0B; }
+.rec-family { border-top: 4px solid #10B981; }
+
+.rec-nna    .rec-card-header { background: #EFF6FF; }
+.rec-school .rec-card-header { background: #FFFBEB; }
+.rec-family .rec-card-header { background: #ECFDF5; }
+
+/* List items */
+.rec-list {
+  list-style: none;
+  padding: 12px 16px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rec-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  animation: recItemIn .25s ease both;
+}
+
+@keyframes recItemIn {
+  from { opacity: 0; transform: translateX(10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.rec-item-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+  width: 22px;
+  text-align: center;
+}
+
+.rec-item-text {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .platform {
@@ -832,10 +1009,13 @@ body {
   .center-stage { order: 1; }
   .panel-right { order: 3; }
   .triggers-grid { grid-template-columns: repeat(4, 1fr); }
+  .rec-cards { grid-template-columns: 1fr; }
+  .rec-header { flex-direction: column; }
 }
 
 @media (max-width: 600px) {
   .triggers-grid { grid-template-columns: repeat(3, 1fr); }
   .header-inner { padding: 0 12px; }
   .nav-btn { padding: 6px 12px; font-size: 0.8rem; }
+  .rec-section { padding: 0 10px 24px; }
 }
