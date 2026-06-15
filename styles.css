@@ -470,7 +470,7 @@ body {
 }
 
 .scene {
-  background: linear-gradient(160deg, #E8F4FD 0%, #F0F0FF 50%, #FFF5F5 100%);
+  background: linear-gradient(180deg, #5BA8D8 0%, #87CEEB 30%, #B8DFF2 55%, #C8EEB0 80%, #A0D870 100%);
   border-radius: var(--radius);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
@@ -483,19 +483,66 @@ body {
   justify-content: center;
 }
 
-/* Background decoration */
-.scene::before {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 80px;
-  background: linear-gradient(180deg, transparent, rgba(108,99,255,0.06));
+/* ── Walk background ── */
+.walk-bg {
+  position: absolute; inset: 0;
+  z-index: 0; pointer-events: none; overflow: hidden;
 }
+
+.wg-ground {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 52px;
+  background: linear-gradient(180deg, #7EC850 0%, #5AA830 100%);
+}
+
+.wg-strip {
+  position: absolute; left: 0;
+  white-space: nowrap; line-height: 1;
+  will-change: transform;
+}
+
+.wg-clouds {
+  top: 14px; font-size: 2rem; opacity: .7;
+  animation: wgScroll 28s linear infinite;
+}
+
+.wg-far {
+  bottom: 52px; font-size: 2.4rem; opacity: .55;
+  animation: wgScroll 18s linear infinite;
+}
+
+.wg-near {
+  bottom: 52px; font-size: 4rem; opacity: .92;
+  animation: wgScroll 10s linear infinite;
+}
+
+@keyframes wgScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── Scene overlay — reddens with stress ── */
+.scene-overlay {
+  position: absolute; inset: 0;
+  z-index: 1; pointer-events: none;
+  transition: background .9s ease;
+}
+.state-calm     .scene-overlay { background: transparent; }
+.state-mild     .scene-overlay { background: rgba(255,200,0,.07); }
+.state-moderate .scene-overlay { background: rgba(255,90,0,.17); }
+.state-high     .scene-overlay { background: rgba(220,20,0,.28); }
+.state-crisis   .scene-overlay {
+  background: rgba(160,0,0,.42);
+  animation: overlayPulse .65s ease-in-out infinite;
+}
+
+@keyframes overlayPulse { 0%,100%{opacity:1} 50%{opacity:.65} }
 
 /* ── Environment Effects ── */
 .environment-effects {
   position: absolute;
   inset: 0;
+  z-index: 2;
   pointer-events: none;
   overflow: hidden;
 }
@@ -542,14 +589,72 @@ body {
   align-items: center;
   gap: 8px;
   position: relative;
-  z-index: 2;
-  transition: transform .3s ease;
+  z-index: 3;
+  transition: transform .4s ease;
 }
 
 .child-svg-container {
   position: relative;
   width: 200px;
   height: 380px;
+  transform-origin: 50% 100%;
+  animation: postureBounce .29s ease-in-out infinite alternate;
+}
+
+@keyframes postureBounce {
+  from { transform: rotate(var(--lean-deg, 0deg)) translateY(var(--lean-y, 0px)); }
+  to   { transform: rotate(var(--lean-deg, 0deg)) translateY(calc(var(--lean-y, 0px) - 5px)); }
+}
+
+/* ── Walking limb animation ── */
+#legL, #legR, #armL, #armR, #footL, #footR, #shadow {
+  transform-box: fill-box;
+}
+
+#legL {
+  transform-origin: 50% 0%;
+  animation: walkLeg var(--walk-dur, .58s) ease-in-out infinite;
+}
+#legR {
+  transform-origin: 50% 0%;
+  animation: walkLeg var(--walk-dur, .58s) ease-in-out infinite reverse;
+}
+#armL {
+  transform-origin: 100% 50%;
+  animation: walkArm var(--walk-dur, .58s) ease-in-out infinite;
+}
+#armR {
+  transform-origin: 0% 50%;
+  animation: walkArm var(--walk-dur, .58s) ease-in-out infinite reverse;
+}
+#footL {
+  transform-origin: 50% 0%;
+  animation: walkFoot var(--walk-dur, .58s) ease-in-out infinite;
+}
+#footR {
+  transform-origin: 50% 0%;
+  animation: walkFoot var(--walk-dur, .58s) ease-in-out infinite reverse;
+}
+#shadow {
+  transform-origin: 50% 50%;
+  animation: shadowPulse var(--walk-dur, .58s) ease-in-out infinite alternate;
+}
+
+@keyframes walkLeg {
+  0%, 100% { transform: rotate(22deg); }
+  50%       { transform: rotate(-22deg); }
+}
+@keyframes walkArm {
+  0%, 100% { transform: rotate(28deg); }
+  50%       { transform: rotate(-28deg); }
+}
+@keyframes walkFoot {
+  0%, 100% { transform: translateY(2px) rotate(15deg); }
+  50%       { transform: translateY(-3px) rotate(-10deg); }
+}
+@keyframes shadowPulse {
+  from { transform: scaleX(1);    opacity: .12; }
+  to   { transform: scaleX(.82);  opacity: .06; }
 }
 
 #childSvg {
@@ -558,20 +663,35 @@ body {
   transition: filter .5s;
 }
 
-/* Child states */
-.state-calm #childSvg { filter: none; }
-.state-mild #childSvg { filter: drop-shadow(0 0 8px rgba(255,193,7,0.5)); }
+/* Child states — filter glow per stress level */
+.state-calm     #childSvg { filter: none; }
+.state-mild     #childSvg { filter: drop-shadow(0 0 8px rgba(255,193,7,0.5)); }
 .state-moderate #childSvg { filter: drop-shadow(0 0 12px rgba(255,152,0,0.6)); }
-.state-high #childSvg { filter: drop-shadow(0 0 16px rgba(244,67,54,0.7)); }
-.state-crisis #childSvg {
-  filter: drop-shadow(0 0 20px rgba(244,67,54,0.9));
-  animation: crisisShake .4s ease-in-out infinite;
+.state-high     #childSvg { filter: drop-shadow(0 0 16px rgba(244,67,54,0.7)); }
+.state-crisis   #childSvg {
+  filter: drop-shadow(0 0 22px rgba(244,67,54,0.95));
+  animation: crisisShake .38s ease-in-out infinite;
 }
 
 @keyframes crisisShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px) rotate(-2deg); }
-  75% { transform: translateX(5px) rotate(2deg); }
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  20%       { transform: translateX(-6px) rotate(-2.5deg); }
+  40%       { transform: translateX(6px)  rotate(2.5deg); }
+  60%       { transform: translateX(-4px) rotate(-1.5deg); }
+  80%       { transform: translateX(4px)  rotate(1.5deg); }
+}
+
+/* Crisis — limbs tense up faster */
+.state-crisis #legL, .state-crisis #legR { animation-name: crisisLeg; animation-duration: .22s; }
+.state-crisis #armL, .state-crisis #armR { animation-name: crisisArm; animation-duration: .22s; }
+
+@keyframes crisisLeg {
+  0%, 100% { transform: rotate(10deg); }
+  50%       { transform: rotate(-10deg); }
+}
+@keyframes crisisArm {
+  0%, 100% { transform: rotate(40deg); }
+  50%       { transform: rotate(20deg); }
 }
 
 /* ── Speech Bubble ── */

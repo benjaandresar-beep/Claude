@@ -362,10 +362,37 @@ function init() {
   setupTooltip();
   setupRecNav();
   setupWelcome();
+  initWalkBg();
   btnReset.addEventListener('click', resetAll);
   btnCalm.addEventListener('click', calmChild);
   setStateVisuals(0);
   updateRecommendations(0);
+}
+
+// ── Scrolling walk background ─────────────────────────────────────────────────
+function initWalkBg() {
+  const bg = document.getElementById('walkBg');
+
+  // Clouds — very slow, top of scene
+  const cloudContent = '☁️            ⛅            ☁️            ⛅            ☁️        ⛅         ';
+  const clouds = document.createElement('div');
+  clouds.className = 'wg-strip wg-clouds';
+  clouds.textContent = cloudContent + cloudContent;
+  bg.insertBefore(clouds, bg.querySelector('.wg-ground'));
+
+  // Far trees — slow, smaller
+  const farContent = '🌲  🌳  🌲🌲  🌳  🌲  🌳  🌲🌳  🌳  🌲  🌳  🌲🌳  🌲 🌳  ';
+  const farEl = document.createElement('div');
+  farEl.className = 'wg-strip wg-far';
+  farEl.textContent = farContent + farContent;
+  bg.insertBefore(farEl, bg.querySelector('.wg-ground'));
+
+  // Near trees — faster, bigger
+  const nearContent = '🌳   🌿 🌳  🌿 🌳   🌿🌳  🌿 🌳  🌿 🌳   🌿 🌳  🌿 ';
+  const nearEl = document.createElement('div');
+  nearEl.className = 'wg-strip wg-near';
+  nearEl.textContent = nearContent + nearContent;
+  bg.insertBefore(nearEl, bg.querySelector('.wg-ground'));
 }
 
 // ── Welcome Modal ─────────────────────────────────────────────────────────────
@@ -447,7 +474,35 @@ function setStateVisuals(idx) {
   STATES.forEach(s => scene.classList.remove(s.sceneClass));
   scene.classList.add(state.sceneClass);
   updateFace(idx);
+  updatePosture(idx);
+  updateWalkSpeed(idx);
   updateRecommendations(idx);
+}
+
+// Lean forward + shift down as stress rises, using CSS custom props on container
+function updatePosture(idx) {
+  const container = document.getElementById('childSvgContainer');
+  const leanDeg = ['0deg', '3deg', '6deg', '9deg', '5deg'];
+  const leanY   = ['0px',  '3px',  '7px', '11px', '14px'];
+  container.style.setProperty('--lean-deg', leanDeg[idx]);
+  container.style.setProperty('--lean-y',   leanY[idx]);
+}
+
+// Speed up walk animation + scroll as stress increases
+function updateWalkSpeed(idx) {
+  const walkDur   = ['.58s', '.62s', '.50s', '.40s', '.28s'];
+  const farDur    = ['18s',  '18s',  '14s',  '9s',   '5s' ];
+  const nearDur   = ['10s',  '10s',  '7s',   '4.5s', '2.5s'];
+  const cloudDur  = ['28s',  '28s',  '22s',  '16s',  '10s' ];
+  // Walk limbs — set via CSS custom property on scene (inherited by SVG)
+  scene.style.setProperty('--walk-dur', walkDur[idx]);
+  // Scroll strips
+  const far   = document.querySelector('.wg-far');
+  const near  = document.querySelector('.wg-near');
+  const cloud = document.querySelector('.wg-clouds');
+  if (far)   far.style.animationDuration   = farDur[idx];
+  if (near)  near.style.animationDuration  = nearDur[idx];
+  if (cloud) cloud.style.animationDuration = cloudDur[idx];
 }
 
 function updateFace(idx) {
