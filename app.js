@@ -319,10 +319,11 @@ const STATES = [
 ];
 
 // ── State ─────────────────────────────────────────────────────────────────────
-let activeTriggers = new Set();
-let stressLevel = 0;
-let currentStateIdx = 0;
-let speechTimeout = null;
+let activeTriggers   = new Set();
+let selectedSymptoms = new Set();
+let stressLevel      = 0;
+let currentStateIdx  = 0;
+let speechTimeout    = null;
 
 // ── DOM References ────────────────────────────────────────────────────────────
 const triggersGrid   = document.getElementById('triggersGrid');
@@ -339,6 +340,8 @@ const envEffects     = document.getElementById('envEffects');
 const toast          = document.getElementById('toast');
 const btnReset       = document.getElementById('btnReset');
 const btnCalm        = document.getElementById('btnCalm');
+const btnDownload    = document.getElementById('btnDownload');
+const toolbarHint    = document.getElementById('toolbarHint');
 const tooltip        = document.getElementById('tooltip');
 const tooltipTitle   = document.getElementById('tooltipTitle');
 const tooltipCite    = document.getElementById('tooltipCite');
@@ -365,6 +368,7 @@ function init() {
   initWalkBg();
   btnReset.addEventListener('click', resetAll);
   btnCalm.addEventListener('click', calmChild);
+  btnDownload.addEventListener('click', downloadGuide);
   setStateVisuals(0);
   updateRecommendations(0);
 }
@@ -454,6 +458,7 @@ function recalcStress() {
   updateSymptoms(stateIdx);
   updateScaleSteps(stateIdx);
   spawnSymptomBubbles(stateIdx);
+  updateDownloadBtn();
 }
 
 function stressToStateIdx(pct) {
@@ -530,21 +535,53 @@ function updateSymptoms(idx) {
   if (idx >= 3) active = [...active, ...SYMPTOMS.high];
   if (idx >= 4) active = [...active, ...SYMPTOMS.crisis];
   symptomsList.innerHTML = '';
+  const selectHint = document.getElementById('selectHint');
   if (active.length === 0) {
     symptomsList.innerHTML = `<div class="no-symptoms"><span>☀️</span><p>Todo está bien por ahora</p></div>`;
+    if (selectHint) selectHint.style.display = 'none';
     return;
   }
+  if (selectHint) selectHint.style.display = 'inline';
   active.forEach(s => {
     const item = document.createElement('div');
     item.className = 'symptom-item has-tooltip';
-    item.dataset.cite = s.cite;
-    item.dataset.desc = s.kidDesc;
+    if (selectedSymptoms.has(s.id)) item.classList.add('selected');
+    item.dataset.sid     = s.id;
+    item.dataset.cite    = s.cite;
+    item.dataset.desc    = s.kidDesc;
     item.dataset.titleTip = s.label;
     item.style.borderLeftColor = s.border;
     item.style.color = s.border;
-    item.innerHTML = `<span class="symptom-item-emoji">${s.emoji}</span><span class="symptom-item-text">${s.label}</span><span class="symptom-cite-tag">💡</span>`;
+    item.innerHTML = `
+      <span class="symptom-item-emoji">${s.emoji}</span>
+      <span class="symptom-item-text">${s.label}</span>
+      <span class="symptom-cite-tag">💡</span>
+      <span class="symptom-check">✓</span>`;
+    item.addEventListener('click', () => toggleSymptom(s, item));
     symptomsList.appendChild(item);
   });
+}
+
+function toggleSymptom(symptom, el) {
+  if (selectedSymptoms.has(symptom.id)) {
+    selectedSymptoms.delete(symptom.id);
+    el.classList.remove('selected');
+  } else {
+    selectedSymptoms.add(symptom.id);
+    el.classList.add('selected');
+  }
+  updateDownloadBtn();
+}
+
+function updateDownloadBtn() {
+  const count = activeTriggers.size + selectedSymptoms.size;
+  if (count > 0) {
+    btnDownload.classList.add('has-data');
+    toolbarHint.textContent = `${count} elemento${count !== 1 ? 's' : ''} seleccionado${count !== 1 ? 's' : ''}`;
+  } else {
+    btnDownload.classList.remove('has-data');
+    toolbarHint.textContent = '';
+  }
 }
 
 function spawnSymptomBubbles(idx) {
@@ -699,6 +736,7 @@ function setupNav() {
 // ── Reset / Calm ──────────────────────────────────────────────────────────────
 function resetAll() {
   activeTriggers.clear();
+  selectedSymptoms.clear();
   document.querySelectorAll('.trigger-btn').forEach(b => b.classList.remove('active'));
   envEffects.innerHTML = '';
   stressLevel = 0;
@@ -709,6 +747,7 @@ function resetAll() {
   updateScaleSteps(0);
   spawnSymptomBubbles(0);
   speechBubble.classList.add('hidden');
+  updateDownloadBtn();
   showToast('Todo reiniciado ✅');
 }
 
@@ -717,6 +756,151 @@ function calmChild() {
   showSpeech('Me siento mejor… gracias 💚');
   resetAll();
   showToast('¡Encontraste la calma! ☀️💚');
+}
+
+// ── Download Guide ────────────────────────────────────────────────────────────
+function downloadGuide() {
+  if (activeTriggers.size === 0 && selectedSymptoms.size === 0) {
+    showToast('Primero activa alguna situación o síntoma 💡');
+    return;
+  }
+  const html = generateGuideHTML();
+  const win = window.open('', '_blank');
+  if (!win) { showToast('Permite ventanas emergentes y vuelve a intentarlo 🔓'); return; }
+  win.document.write(html);
+  win.document.close();
+  setTimeout(() => { win.focus(); win.print(); }, 500);
+}
+
+function generateGuideHTML() {
+  const rec   = RECOMMENDATIONS[currentStateIdx];
+  const state = STATES[currentStateIdx];
+  const today = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  // Selected triggers
+  const triggers = TRIGGERS.filter(t => activeTriggers.has(t.id));
+
+  // Selected symptoms (flat search across all categories)
+  const allSymptoms = [
+    ...SYMPTOMS.mild, ...SYMPTOMS.moderate, ...SYMPTOMS.high, ...SYMPTOMS.crisis
+  ];
+  const symptoms = allSymptoms.filter(s => selectedSymptoms.has(s.id));
+
+  const triggerRows = triggers.length
+    ? triggers.map(t => `
+        <div class="g-row">
+          <span class="g-emo">${t.emoji}</span>
+          <div>
+            <strong>${t.label}</strong>
+            <p>${t.kidDesc}</p>
+          </div>
+        </div>`).join('')
+    : '<p class="g-empty">No hay situaciones seleccionadas.</p>';
+
+  const symptomRows = symptoms.length
+    ? symptoms.map(s => `
+        <div class="g-row">
+          <span class="g-emo">${s.emoji}</span>
+          <div>
+            <strong>${s.label}</strong>
+            <p>${s.kidDesc}</p>
+          </div>
+        </div>`).join('')
+    : '<p class="g-empty">No hay síntomas marcados. Activa situaciones y selecciona los síntomas que sientes.</p>';
+
+  const recBlock = (audience, audienceLabel, icon, data) => `
+    <div class="g-card">
+      <div class="g-card-head">${icon} ${audienceLabel}</div>
+      <div class="g-card-section"><span class="g-area-label">🧠 Área psicológica</span>
+        ${data.psych.map(i => `<div class="g-item"><span class="g-item-icon">${i.icon}</span><span>${i.text}</span></div>`).join('')}
+      </div>
+      <div class="g-divider"></div>
+      <div class="g-card-section"><span class="g-area-label">🤲 Integración sensorial</span>
+        ${data.sensory.map(i => `<div class="g-item"><span class="g-item-icon">${i.icon}</span><span>${i.text}</span></div>`).join('')}
+      </div>
+    </div>`;
+
+  return `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mi Guía de Regulación — EmotiKids</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;font-size:12px;color:#2D2D3A;background:#fff;padding:28px 36px}
+  h1{font-size:22px;color:#6C63FF;margin-bottom:2px}
+  .g-sub{color:#7A7A9A;font-size:11px;margin-bottom:20px}
+  .g-section{margin-bottom:22px}
+  .g-section-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#6C63FF;margin-bottom:10px;padding-bottom:5px;border-bottom:2px solid #EEF0FF}
+  .g-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;padding:8px 10px;background:#F8F8FF;border-radius:8px;border-left:3px solid #6C63FF}
+  .g-emo{font-size:1.5rem;flex-shrink:0;margin-top:2px}
+  .g-row strong{font-size:12px;display:block;margin-bottom:2px}
+  .g-row p{font-size:11px;color:#7A7A9A;line-height:1.5}
+  .g-empty{color:#9A9AB0;font-style:italic;font-size:11px;padding:6px 0}
+  .g-level{display:flex;align-items:center;gap:12px;background:#F8F8FF;border-radius:10px;padding:14px 16px;border-left:4px solid}
+  .g-level-emo{font-size:2.2rem}
+  .g-level-text strong{font-size:14px;display:block}
+  .g-level-text span{font-size:11px;color:#7A7A9A}
+  .g-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+  .g-card{background:#F8F8FF;border-radius:10px;padding:12px;border:1px solid #E4E4F0;page-break-inside:avoid}
+  .g-card-head{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:#6C63FF;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #E4E4F0}
+  .g-card-section{margin-bottom:8px}
+  .g-area-label{display:block;font-size:10px;font-weight:700;color:#9A9AB0;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px}
+  .g-item{display:flex;gap:6px;margin-bottom:5px;font-size:11px;line-height:1.5}
+  .g-item-icon{flex-shrink:0;width:16px;text-align:center}
+  .g-divider{height:1px;background:#E4E4F0;margin:8px 0}
+  .g-footer{margin-top:24px;padding-top:12px;border-top:1px solid #E4E4F0;font-size:10px;color:#9A9AB0;text-align:center}
+  .g-cite{font-size:10px;color:#B0B0C0;font-style:italic;margin-top:6px}
+  @media print{
+    body{padding:16px}
+    .g-cards{grid-template-columns:repeat(3,1fr)}
+    .g-card{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<h1>Mi Guía Personal de Regulación Emocional</h1>
+<p class="g-sub">EmotiKids · Generado el ${today}</p>
+
+<div class="g-section">
+  <div class="g-section-title">⚡ Situaciones que me activan (${triggers.length})</div>
+  ${triggerRows}
+</div>
+
+<div class="g-section">
+  <div class="g-section-title">🧠 Síntomas que siento en mi cuerpo (${symptoms.length})</div>
+  ${symptomRows}
+</div>
+
+<div class="g-section">
+  <div class="g-section-title">🌋 Mi nivel en la escala del volcán</div>
+  <div class="g-level" style="border-color:${rec.accent};background:${rec.bg}">
+    <span class="g-level-emo">${state.emoji}</span>
+    <div class="g-level-text">
+      <strong>${rec.badge}</strong>
+      <span>${rec.title}</span>
+      <div class="g-cite">📚 ${rec.cite}</div>
+    </div>
+  </div>
+</div>
+
+<div class="g-section">
+  <div class="g-section-title">💡 Recomendaciones para este nivel</div>
+  <div class="g-cards">
+    ${recBlock('nna',    'Para mí',      '💙', rec.nna)}
+    ${recBlock('school', 'En el colegio','🏫', rec.school)}
+    ${recBlock('family', 'En casa',      '🏠', rec.family)}
+  </div>
+</div>
+
+<div class="g-footer">
+  Plataforma EmotiKids · Basada en literatura científica peer-reviewed sobre AACC y desregulación emocional<br>
+  Dabrowski (1964) · Silverman (2002) · Webb et al. (2016) · Kuypers (2011) · Ayres (1972) · Wilbarger &amp; Wilbarger (1991) · Siegel &amp; Bryson (2012)
+</div>
+
+</body>
+</html>`;
 }
 
 // ── Toast ─────────────────────────────────────────────────────────────────────

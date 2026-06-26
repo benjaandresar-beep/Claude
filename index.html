@@ -161,6 +161,15 @@
   <!-- ══ MAIN PLATFORM VIEW ════════════════════════════════════════════════ -->
   <div id="platformView">
 
+    <!-- Toolbar: download button top-left -->
+    <div class="platform-toolbar">
+      <button class="btn-download" id="btnDownload">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Descargar mi guía
+      </button>
+      <span class="toolbar-hint" id="toolbarHint"></span>
+    </div>
+
     <main class="platform">
 
       <!-- LEFT: Environmental triggers -->
@@ -252,7 +261,7 @@
           <span class="panel-icon">🧠</span>
           ¿Qué siento en mi cuerpo?
         </h2>
-        <p class="panel-subtitle">Señales que me manda mi cuerpo · <span class="cite-hint">💡 pasa el cursor</span></p>
+        <p class="panel-subtitle">Señales que me manda mi cuerpo · <span class="cite-hint">💡 pasa el cursor</span><br><span class="select-hint" id="selectHint" style="display:none">Toca los que te pasan a ti ✓</span></p>
         <div class="symptoms-list" id="symptomsList">
           <div class="no-symptoms">
             <span>☀️</span>
